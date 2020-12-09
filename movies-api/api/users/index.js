@@ -18,11 +18,21 @@ router.post('/', async (req, res, next) => {
     });
   }
   if (req.query.action === 'register') {
-    await User.create(req.body).catch(next);
-    res.status(201).json({
-      code: 201,
-      msg: 'Successful created new user.',
-    });
+    let regex = new RegExp('^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$')
+    if(regex.test(req.body.password)){
+      await User.create(req.body).catch(next);
+      res.status(201).json({
+        code: 201,
+        msg: 'Successful created new user.',
+      });
+    }else{
+      console.log("Bad Password")
+      res.status(201).json({
+        code: 201,
+        msg: 'Error Bad Password.',
+      });
+
+    }
   } else {
     const user = await User.findByUserName(req.body.username).catch(next);
       if (!user) return res.status(401).json({ code: 401, msg: 'Authentication failed. User not found.' });
@@ -56,23 +66,24 @@ router.put('/:id',  (req, res,next) => {
     .then(user => res.json(200, user)).catch(next);
 });
 
-router.post('/:userName/favourites', (req, res, next) => {
-    const newFavourite = req.body;
-    const query = {username: req.params.userName};
-    if (newFavourite && newFavourite.id) {
-      User.find(query).then(
-        user => { 
-          (user.favourites)?user.favourites.push(newFavourite):user.favourites =[newFavourite];
-          console.log(user);
-          User.findOneAndUpdate(query, {favourites:user.favourites}, {
-            new: true
-          }).then(user => res.status(201).send(user));
-        }
-      ).catch(next);
-    } else {
-        res.status(401).send("Unable to find user")
-    }
-  });
+//Add a favourite. No Error Handling Yet. Can add duplicates too!
+router.post('/:userName/favourites', async (req, res, next) => {
+  try{
+  const newFavourite = req.body.id;
+  const userName = req.params.userName;
+  const movie = await movieModel.findByMovieDBId(newFavourite);
+  const user = await User.findByUserName(userName);
+  if(!user.favourites.includes( movieModel.findByMovieDBId(newFavourite))){
+    await user.favourites.push(movie._id);
+    await user.save(); 
+    res.status(201).json(user);
+  }else{
+    console.log("Movie already is in favourites")
+  }
+  }catch(err){
+    console.log("Error adding movies to favourites ",{err})
+  }
+});
 
   router.get('/:userName/favourites', (req, res, next) => {
     const user = req.params.userName;
