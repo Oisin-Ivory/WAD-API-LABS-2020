@@ -19,8 +19,9 @@ router.post('/', async (req, res, next) => {
     });
   }
   if (req.query.action === 'register') {
-    let regex = new RegExp('^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$')
-    if(regex.test(req.body.password)){
+    console.log(/([a-zA-Z]\d)/.test(req.body.password));
+    console.log(req.body.password);
+    if(/([a-zA-Z]\d)/.test(req.body.password)){
       await User.create(req.body).catch(next);
       res.status(201).json({
         code: 201,
