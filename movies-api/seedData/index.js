@@ -1,6 +1,7 @@
 import userModel from '../api/users/userModel';
 import movieModel from '../api/movies/movieModel';
 import {movies} from './movies.js';
+
 const users = [
   {
     'username': 'user1',

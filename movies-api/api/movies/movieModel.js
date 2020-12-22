@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const MovieSchema = new Schema({
   adult: { type: Boolean },
-  id: { type: Number, required: true, unique: true },
+  id: [{ type: Number, required: true, unique: true }],
   poster_path: { type: String },
   overview: { type: String },
   release_date: { type: String },
@@ -33,6 +33,14 @@ const MovieSchema = new Schema({
 
 MovieSchema.statics.findByMovieDBId = function (id) {
   return this.findOne({ id: id });
+};
+
+MovieSchema.statics.getPage = function () {
+  return this.find().limit(20);
+};
+
+MovieSchema.statics.getUpComing = function () {
+  return this.find().sort({"release_date":'descending'}).limit(20);
 };
 
 export default mongoose.model('Movies', MovieSchema);
