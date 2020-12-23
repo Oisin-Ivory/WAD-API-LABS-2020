@@ -21,6 +21,9 @@ router.get('/:id', (req, res, next) => {
       case "upcoming":
         movieModel.getUpComing().then(movies => res.status(200).send(movies)).catch(next);
       break;
+      case "toprated":
+        movieModel.getTopRated().then(movies => res.status(200).send(movies)).catch(next);
+     break;
 
     }
   }else{
@@ -36,14 +39,6 @@ router.get('/:id/reviews', (req, res, next) => {
   .then(reviews => res.status(200).send(reviews))
   .catch((error) => next(error));
 
-});
-
-router.get('/:id', (req, res, next) => {
-  const option  = req.params.option;
-  if(option == upcoming){
-    movieModel.upComing().then(movies => res.status(200).send(movies)).catch(next);
-  }
-  
 });
 
 export default router;

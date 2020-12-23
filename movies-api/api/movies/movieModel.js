@@ -40,7 +40,11 @@ MovieSchema.statics.getPage = function () {
 };
 
 MovieSchema.statics.getUpComing = function () {
-  return this.find().sort({"release_date":'descending'}).limit(20);
+  return this.find().sort({'release_date':'descending'}).limit(20);
+};
+
+MovieSchema.statics.getTopRated = function () {
+  return this.find().sort({'vote_average':'descending'}).limit(20);
 };
 
 export default mongoose.model('Movies', MovieSchema);

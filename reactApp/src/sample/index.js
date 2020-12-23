@@ -12,7 +12,6 @@ const App = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AuthHeader />
         <ul>
           <li>
             <Link to="/">Home</Link>
