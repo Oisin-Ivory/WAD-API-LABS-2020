@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import helmet from 'helmet';
 import moviesRouter from './api/movies';
 import genresRouter from './api/genres';
 import bodyParser from 'body-parser';
@@ -25,6 +26,7 @@ if (process.env.SEED_DB) {
 }
 
 const app = express();
+app.use(helmet());
 
 const port = process.env.PORT;
 
@@ -36,6 +38,8 @@ app.use(session({
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
+
+app.use(helmet());
 
 //app.use('/api/movies', passport.authenticate('jwt', {session: false}), moviesRouter);
 app.use('/api/movies',  moviesRouter);
