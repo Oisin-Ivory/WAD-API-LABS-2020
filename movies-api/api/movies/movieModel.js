@@ -47,6 +47,17 @@ MovieSchema.statics.getTopRated = function () {
   return this.find().sort({'vote_average':'descending'}).limit(20);
 };
 
+MovieSchema.statics.getRecommendations = async function (id) {
+  let movie = await  this.findOne({id: id})
+  let genres = movie.genre_ids
+  var query = {
+    'genre_ids':{$in : genres},
+    'id':{$ne : id}
+  }
+  return this.find(query).limit(8)
+ 
+};
+
 export default mongoose.model('Movies', MovieSchema);
 
 

@@ -6,10 +6,16 @@ const users = [
   {
     'username': 'user1',
     'password': 'test1',
+    "favourites": [
+      "5fe34f9302d897222cd8d289"
+    ]
   },
   {
     'username': 'user2',
     'password': 'test2',
+    "favourites": [
+      "5fe34f9302d897222cd8d289"
+    ]
   },
 ];
 

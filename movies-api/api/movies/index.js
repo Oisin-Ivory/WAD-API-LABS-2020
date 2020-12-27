@@ -23,8 +23,7 @@ router.get('/:id', (req, res, next) => {
       break;
       case "toprated":
         movieModel.getTopRated().then(movies => res.status(200).send(movies)).catch(next);
-     break;
-
+      break;
     }
   }else{
   const id = parseInt(req.params.id);
@@ -37,6 +36,15 @@ router.get('/:id/reviews', (req, res, next) => {
   const id = parseInt(req.params.id);
   getMovieReviews(id)
   .then(reviews => res.status(200).send(reviews))
+  .catch((error) => next(error));
+
+});
+
+router.get('/:id/recommended', (req, res, next) => {
+
+  const id = parseInt(req.params.id);
+  movieModel.getRecommendations(id)
+  .then(movies => res.status(200).send(movies))
   .catch((error) => next(error));
 
 });

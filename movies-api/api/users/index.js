@@ -75,7 +75,7 @@ router.post('/:userName/favourites', async (req, res, next) => {
   const userName = req.params.userName;
   const movie = await movieModel.findByMovieDBId(newFavourite);
   const user = await User.findByUserName(userName);
-  if(!user.favourites.includes( movieModel.findByMovieDBId(newFavourite))){
+  if(!user.favourites.includes(movie._id)){
     await user.favourites.push(movie._id);
     await user.save(); 
     res.status(201).json(user); 
