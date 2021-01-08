@@ -30,9 +30,7 @@ Once that is done unzip the API, then navigate to the apis root folder using 'cd
 Once it has installed the packages, add the .env file as below., then use 'npm start'
 
 for the React App,
-Unzip the react app, create a .env file and add
-"REACT_APP_TMDB_KEY="
-followed by your key. then run 'npm install', once that is complete, then yse 'npm start'
+Unzip the react app, then run 'npm install', once that is complete, then yse 'npm start'
 ```
 
 
